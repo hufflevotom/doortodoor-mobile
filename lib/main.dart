@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Salvatore App',
-      initialRoute: preferences.tokenUser == null ? 'login' : 'home',
+      initialRoute: preferences.tokenUser == null ? 'login' : 'problema',
       routes: {
         'login': (_) => const LoginScreen(),
         'home': (_) => const HomeScreen(),
