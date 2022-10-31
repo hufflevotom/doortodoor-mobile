@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:doortodoor_mobile/Providers/login_form_provider.dart';
@@ -39,6 +40,8 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    final preferences = Provider.of<LocalPreferences>(context);
+
     return Form(
       key: loginForm.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -93,6 +96,7 @@ class _LoginForm extends StatelessWidget {
                         loginForm.docIdentidad, loginForm.password);
 
                     if (errorMessage == null) {
+                      preferences.setTokenUser('token123');
                       Navigator.pushReplacementNamed(context, 'home');
                     } else {
                       //TODO: Mostrar una alerta
