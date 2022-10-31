@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FolioScreen extends StatelessWidget {
   const FolioScreen({super.key});
+
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,8 +206,8 @@ class FolioScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {
-                //TODO: Llamar
+              onPressed: () async {
+                await makePhoneCall('123456789');
               },
             ),
           ),

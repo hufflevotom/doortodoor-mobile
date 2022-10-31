@@ -2,6 +2,32 @@
     package="com.example.doortodoor_mobile">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />            
+            <data android:scheme="https" />
+        </intent>    
+         <intent>
+            <action android:name="android.intent.action.VIEW" />            
+            <data android:scheme="http" />
+        </intent>
+         <intent>
+            <action android:name="android.intent.action.DIAL" />            
+            <data android:scheme="tel" />
+        </intent>
+         <intent>
+            <action android:name="android.intent.action.SENDTO" />            
+            <data android:scheme="smsto" />
+        </intent>            
+         <intent>
+            <action android:name="android.intent.action.SEND" />            
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries> 
+    
    <application
         android:label="doortodoor_mobile"
         android:name="${applicationName}"
