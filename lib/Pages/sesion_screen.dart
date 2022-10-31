@@ -1,11 +1,15 @@
+import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
+import 'package:provider/provider.dart';
 
 class SesionScreen extends StatelessWidget {
   const SesionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final preferences = Provider.of<LocalPreferences>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -222,6 +226,7 @@ class SesionScreen extends StatelessWidget {
               ),
               onPressed: () {
                 //TODO: Destruir sesión
+                preferences.removeTokenUser();
                 Navigator.pushReplacementNamed(context, 'login');
               },
             ),
