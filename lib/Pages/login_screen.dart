@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    final global = Provider.of<GlobalProvider>(context);
     final preferences = Provider.of<LocalPreferences>(context);
 
     return Form(
@@ -88,20 +90,26 @@ class _LoginForm extends StatelessWidget {
                 ? null
                 : () async {
                     FocusScope.of(context).unfocus();
+
                     final loginService =
                         Provider.of<LoginService>(context, listen: false);
+
                     if (!loginForm.isValidForm()) return;
                     loginForm.isLoading = true;
-                    final String? errorMessage = await loginService.login(
+                    final Map? login = await loginService.login(
                         loginForm.docIdentidad, loginForm.password);
 
-                    if (errorMessage == null) {
-                      preferences.setTokenUser('token123');
+                    if (login?['errorMessage'] == null &&
+                        login?['id'] != null) {
+                      final Map<String, dynamic>? newUser =
+                          await loginService.user(login!['id']);
+                      print(newUser);
+                      if (newUser != null) global.setUser(newUser: newUser);
+                      preferences.setTokenUser(login['id']);
                       Navigator.pushReplacementNamed(context, 'home');
                     } else {
-                      //TODO: Mostrar una alerta
                       notification(
-                          message: errorMessage,
+                          message: login!['errorMessage'],
                           context: context,
                           type: 'Error');
                       loginForm.isLoading = false;

@@ -1,3 +1,4 @@
+import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginService()),
+        ChangeNotifierProvider(create: (_) => GlobalProvider()),
         Provider(create: (_) => LocalPreferences(preferences)),
       ],
       child: const MyApp(),

@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 class LoginService extends ChangeNotifier {
   final String _baseUrl = 'salvatore-backend.herokuapp.com';
 
-  Future<String?> login(String docIdentidad, String password) async {
+  Future<Map<String, dynamic>?> login(
+      String docIdentidad, String password) async {
     final Map<String, dynamic> bodyData = {
       'dni': docIdentidad,
       'contrasena': password
@@ -15,12 +16,24 @@ class LoginService extends ChangeNotifier {
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
     if (decodeResp['type'] == 'success') {
       if (decodeResp['data']['idTipoRol'] == '60bb0fad68bcb70590c9eccd') {
-        return null;
+        return {'id': decodeResp['data']['_id'], 'errorMessage': null};
       } else {
-        return 'No es repartidor';
+        return {'errorMessage': 'No es repartidor'};
       }
     } else {
-      return decodeResp['message'];
+      return {'errorMessage': decodeResp['message']};
+    }
+  }
+
+  Future<Map<String, dynamic>?> user(String id) async {
+    final url = Uri.https(_baseUrl, '/v1/usuario/$id');
+    final resp = await http.get(url);
+    final Map<String, dynamic> decodeResp = json.decode(resp.body);
+    print(decodeResp);
+    if (decodeResp['_id'] != null) {
+      return decodeResp;
+    } else {
+      return null;
     }
   }
 }

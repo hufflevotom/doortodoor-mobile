@@ -1,3 +1,4 @@
+import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
@@ -8,6 +9,7 @@ class SesionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final global = Provider.of<GlobalProvider>(context);
     final preferences = Provider.of<LocalPreferences>(context);
 
     return Scaffold(
@@ -46,7 +48,7 @@ class SesionScreen extends StatelessWidget {
                             'Doc. Identidad: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['dni']),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -56,7 +58,7 @@ class SesionScreen extends StatelessWidget {
                             'Nombre: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['nombre']),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -66,7 +68,7 @@ class SesionScreen extends StatelessWidget {
                             'Apellidos: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['apellidos']),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -76,7 +78,7 @@ class SesionScreen extends StatelessWidget {
                             'Celular: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['celular']),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -86,7 +88,7 @@ class SesionScreen extends StatelessWidget {
                             'Brevete: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['brevete']),
                         ],
                       )
                     ],
@@ -122,7 +124,7 @@ class SesionScreen extends StatelessWidget {
                             'Modelo: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['nombre']),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -132,7 +134,7 @@ class SesionScreen extends StatelessWidget {
                             'Placa: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['nombre']),
                         ],
                       ),
                     ],
@@ -168,7 +170,7 @@ class SesionScreen extends StatelessWidget {
                             'Local de origen: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['nombre']),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -178,7 +180,7 @@ class SesionScreen extends StatelessWidget {
                             'Ruta: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Text(global.user['nombre']),
                         ],
                       ),
                     ],

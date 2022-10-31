@@ -29,6 +29,8 @@ class _RutaScreenState extends State<RutaScreen> {
             return FolioCard(
               estado: 'pendiente',
               onTap: () {
+                //TODO: setear datos del folio
+                Navigator.pushReplacementNamed(context, 'folio');
                 print(index);
               },
               child: Row(
