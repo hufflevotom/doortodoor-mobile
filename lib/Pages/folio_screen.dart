@@ -173,6 +173,74 @@ class FolioScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
+            padding: const EdgeInsets.only(bottom: 20, left: 100, right: 70),
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              disabledColor: CustomColors.gris_100,
+              elevation: 0,
+              color: CustomColors.verde_100,
+              child: Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Llamar',
+                        style: TextStyle(color: CustomColors.blanco),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              onPressed: () {
+                //TODO: Llamar
+              },
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 20, left: 100, right: 70),
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              disabledColor: CustomColors.gris_100,
+              elevation: 0,
+              color: CustomColors.azul_100,
+              child: Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.check_circle_outline_rounded,
+                        color: CustomColors.blanco,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Terminar la entrega',
+                        style: TextStyle(color: CustomColors.blanco),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              onPressed: () {
+                //TODO: Terminar la entrega
+                Navigator.pushNamed(context, 'finalizar');
+              },
+            ),
+          ),
+          Container(
             padding: const EdgeInsets.only(bottom: 30, left: 100, right: 70),
             child: MaterialButton(
               shape: RoundedRectangleBorder(
@@ -190,14 +258,14 @@ class FolioScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.logout,
+                        Icons.error_outline_rounded,
                         color: CustomColors.blanco,
                       ),
                       const SizedBox(
                         width: 10,
                       ),
                       Text(
-                        'Cerrar sesión',
+                        'Reportar problema',
                         style: TextStyle(color: CustomColors.blanco),
                       ),
                     ],
@@ -205,11 +273,11 @@ class FolioScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                //TODO: Destruir sesión
-                Navigator.pushReplacementNamed(context, 'login');
+                //TODO: Reportar problema
+                Navigator.pushNamed(context, 'problema');
               },
             ),
-          )
+          ),
         ],
       ),
     );

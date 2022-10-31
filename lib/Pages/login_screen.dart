@@ -2,6 +2,7 @@
 
 import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
+import 'package:doortodoor_mobile/interfaces/user_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:doortodoor_mobile/Providers/login_form_provider.dart';
@@ -101,7 +102,7 @@ class _LoginForm extends StatelessWidget {
 
                     if (login?['errorMessage'] == null &&
                         login?['id'] != null) {
-                      final Map<String, dynamic>? newUser =
+                      final User? newUser =
                           await loginService.user(login!['id']);
                       print(newUser);
                       if (newUser != null) global.setUser(newUser: newUser);

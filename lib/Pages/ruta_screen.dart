@@ -30,7 +30,7 @@ class _RutaScreenState extends State<RutaScreen> {
               estado: 'pendiente',
               onTap: () {
                 //TODO: setear datos del folio
-                Navigator.pushReplacementNamed(context, 'folio');
+                Navigator.pushNamed(context, 'folio');
                 print(index);
               },
               child: Row(

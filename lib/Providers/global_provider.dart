@@ -1,10 +1,11 @@
+import 'package:doortodoor_mobile/interfaces/user_interface.dart';
 import 'package:flutter/material.dart';
 
 class GlobalProvider extends ChangeNotifier {
-  Map<String, dynamic> user = {};
+  late User user;
   List folios = [];
 
-  Future<void> setUser({required Map<String, dynamic> newUser}) async {
+  Future<void> setUser({required User newUser}) async {
     user = newUser;
     notifyListeners();
   }

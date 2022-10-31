@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:doortodoor_mobile/interfaces/user_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,13 +26,12 @@ class LoginService extends ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>?> user(String id) async {
+  Future<User?> user(String id) async {
     final url = Uri.https(_baseUrl, '/v1/usuario/$id');
     final resp = await http.get(url);
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
-    print(decodeResp);
     if (decodeResp['_id'] != null) {
-      return decodeResp;
+      return User.fromJson(decodeResp);
     } else {
       return null;
     }
