@@ -9,7 +9,7 @@ class ProblemaScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Finalizar la entrega',
+          'Terminar la entrega',
           style: CustomText.titulo5W,
         ),
       ),
@@ -20,7 +20,7 @@ class ProblemaScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Estado de la entrega',
+                'Problema',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -48,87 +48,7 @@ class ProblemaScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               const Text(
-                'Evidencias de entrega',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 15),
-              SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.verde_100,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.photo),
-                      SizedBox(width: 10),
-                      SizedBox(
-                        width: 120,
-                        child: Text(
-                          'Foto del cliente',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.gris_100,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.photo),
-                      SizedBox(width: 10),
-                      SizedBox(
-                        width: 120,
-                        child: Text(
-                          'Foto de la guía',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.gris_100,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.photo),
-                      SizedBox(width: 10),
-                      SizedBox(
-                        width: 120,
-                        child: Text(
-                          'Foto del lugar',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'Justificación de entrega',
+                'Motivo',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -141,7 +61,7 @@ class ProblemaScreen extends StatelessWidget {
                 maxLines: null,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Justificación',
+                  labelText: 'Describa el problema',
                   labelStyle: TextStyle(fontSize: 14),
                 ),
               ),
@@ -152,10 +72,10 @@ class ProblemaScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.azul_100,
+                    backgroundColor: CustomColors.naranja_100,
                   ),
                   child: const Text(
-                    'Finalizar la entrega',
+                    'Registrar problema',
                   ),
                 ),
               ),
