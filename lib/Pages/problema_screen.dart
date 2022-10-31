@@ -32,11 +32,11 @@ class ProblemaScreen extends StatelessWidget {
                 child: DropdownButton(
                   underline: Container(),
                   isExpanded: true,
-                  value: 'Entregado',
+                  value: 'Seleccione',
                   items: const [
                     DropdownMenuItem(
-                      value: 'Entregado',
-                      child: Text('Entregado'),
+                      value: 'Seleccione',
+                      child: Text('Seleccione'),
                     ),
                     DropdownMenuItem(
                       value: 'No entregado',
