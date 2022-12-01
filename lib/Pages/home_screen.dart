@@ -1,13 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
-
-import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
 import 'package:doortodoor_mobile/Utils/Widgets/widgets.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,24 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
     // addImageFromUrl("networkImage", "https://via.placeholder.com/50");
   }
 
-  /// Adds an asset image to the currently displayed style
+  //* Adds an asset image to the currently displayed style
   Future<void> addImageFromAsset(String name, String assetName) async {
     final ByteData bytes = await rootBundle.load(assetName);
     final Uint8List list = bytes.buffer.asUint8List();
     return mapController?.addImage(name, list);
   }
 
-  // /// Adds a network image to the currently displayed style
-  // Future<void> addImageFromUrl(String name, String url) async {
-  //   var response = await http.get(url);
-  //   return mapController?.addImage(name, response.bodyBytes);
-  // }
-
   @override
   Widget build(BuildContext context) {
-    final global = Provider.of<GlobalProvider>(context);
-
-    print('GLOBAL USER: ${global.user}');
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(

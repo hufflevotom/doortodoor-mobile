@@ -1,4 +1,4 @@
-import 'package:doortodoor_mobile/interfaces/user_interface.dart';
+import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
 import 'package:flutter/material.dart';
 
 class GlobalProvider extends ChangeNotifier {

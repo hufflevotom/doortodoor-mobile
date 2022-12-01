@@ -207,7 +207,8 @@ class FolioScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                await makePhoneCall('123456789');
+                //TODO: poner el número del cliente indicado en el folio
+                await makePhoneCall('923563714');
               },
             ),
           ),

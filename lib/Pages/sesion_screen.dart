@@ -124,7 +124,7 @@ class SesionScreen extends StatelessWidget {
                             'Modelo: ',
                             style: CustomText.botones,
                           ),
-                          Text(global.user.nombre!),
+                          Text(global.user.idVehiculo!.modelo!),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -134,7 +134,7 @@ class SesionScreen extends StatelessWidget {
                             'Placa: ',
                             style: CustomText.botones,
                           ),
-                          Text(global.user.nombre!),
+                          Text(global.user.idVehiculo!.placa!),
                         ],
                       ),
                     ],
@@ -164,23 +164,23 @@ class SesionScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Local de origen: ',
-                            style: CustomText.botones,
-                          ),
-                          Text(global.user.nombre!),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       'Local de origen: ',
+                      //       style: CustomText.botones,
+                      //     ),
+                      //     Text(global.user.nombre!),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 8),
                       Row(
                         children: [
                           Text(
                             'Ruta: ',
                             style: CustomText.botones,
                           ),
-                          Text(global.user.nombre!),
+                          Text(global.user.ruta!),
                         ],
                       ),
                     ],

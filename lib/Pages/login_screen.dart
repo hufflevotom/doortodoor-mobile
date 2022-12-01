@@ -2,7 +2,7 @@
 
 import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
-import 'package:doortodoor_mobile/interfaces/user_interface.dart';
+import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:doortodoor_mobile/Providers/login_form_provider.dart';
@@ -99,14 +99,13 @@ class _LoginForm extends StatelessWidget {
                     loginForm.isLoading = true;
                     final Map? login = await loginService.login(
                         loginForm.docIdentidad, loginForm.password);
-
+                    print(login);
                     if (login?['errorMessage'] == null &&
-                        login?['id'] != null) {
+                        login?['user'] != null) {
                       final User? newUser =
-                          await loginService.user(login!['id']);
-                      print(newUser);
+                          await loginService.user(login?['token']);
                       if (newUser != null) global.setUser(newUser: newUser);
-                      preferences.setTokenUser(login['id']);
+                      preferences.setTokenUser(login?['token']);
                       Navigator.pushReplacementNamed(context, 'home');
                     } else {
                       notification(

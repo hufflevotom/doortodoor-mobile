@@ -1,6 +1,5 @@
 class User {
   String? sId;
-  String? dni;
   String? contrasena;
   String? nombre;
   String? apellidos;
@@ -9,10 +8,13 @@ class User {
   String? brevete;
   String? createdAt;
   String? updatedAt;
+  String? documento;
+  String? dni;
+  IdVehiculo? idVehiculo;
+  String? ruta;
 
   User(
       {this.sId,
-      this.dni,
       this.contrasena,
       this.nombre,
       this.apellidos,
@@ -20,11 +22,14 @@ class User {
       this.idTipoRol,
       this.brevete,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.documento,
+      this.dni,
+      this.idVehiculo,
+      this.ruta});
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    dni = json['dni'];
     contrasena = json['contrasena'];
     nombre = json['nombre'];
     apellidos = json['apellidos'];
@@ -33,5 +38,25 @@ class User {
     brevete = json['brevete'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+    documento = json['documento'];
+    dni = json['dni'];
+    idVehiculo = json['idVehiculo'] != null
+        ? IdVehiculo.fromJson(json['idVehiculo'])
+        : null;
+    ruta = json['ruta'];
+  }
+}
+
+class IdVehiculo {
+  String? sId;
+  String? placa;
+  String? modelo;
+
+  IdVehiculo({this.sId, this.placa, this.modelo});
+
+  IdVehiculo.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    placa = json['placa'];
+    modelo = json['modelo'];
   }
 }

@@ -1,26 +1,14 @@
 import 'dart:convert';
+import 'package:doortodoor_mobile/Common/env.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class FolioService extends ChangeNotifier {
-  final String _baseUrl = 'salvatore-backend.herokuapp.com';
-
-  Future<String?> obtenerFolios(String docIdentidad, String password) async {
-    final Map<String, dynamic> bodyData = {
-      'dni': docIdentidad,
-      'contrasena': password
-    };
-    final url = Uri.https(_baseUrl, '/v1/usuario/sesion');
-    final resp = await http.post(url, body: bodyData);
+  Future<String?> obtenerFolios() async {
+    final url = Uri.https(EnvironmentVariables.baseUrl, '/document/folios');
+    final resp = await http.get(url);
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
-    if (decodeResp['type'] == 'success') {
-      if (decodeResp['data']['idTipoRol'] == '60bb0fad68bcb70590c9eccd') {
-        return null;
-      } else {
-        return 'No es repartidor';
-      }
-    } else {
-      return decodeResp['message'];
-    }
+    print(decodeResp);
+    return null;
   }
 }
