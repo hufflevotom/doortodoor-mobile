@@ -3,16 +3,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 class GlobalProvider extends ChangeNotifier {
+  LatLng? _ubicationUser;
+
   User? _user;
   List _folios = [];
+
+  LatLng? get ubicationUser => _ubicationUser;
 
   User? get getUser => _user;
   bool get existUser => _user != User() ? true : false;
 
   List get getFolios => _folios;
   bool get existFolios => _folios.isNotEmpty ? true : false;
+
+  void setUbiUser(LatLng ubication) {
+    print('DEBUG: setUbiUser');
+    _ubicationUser = ubication;
+    notifyListeners();
+  }
 
   Future<void> setUser({required User newUser}) async {
     _user = newUser;
