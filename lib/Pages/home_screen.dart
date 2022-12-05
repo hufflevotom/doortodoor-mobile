@@ -1,19 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
-import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
-import 'package:doortodoor_mobile/Pages/card_folio_screen.dart';
-import 'package:doortodoor_mobile/Pages/map_box_screen.dart';
-import 'package:doortodoor_mobile/Providers/global_provider.dart';
-import 'package:doortodoor_mobile/Services/folio_service.dart';
-import 'package:doortodoor_mobile/Services/login_service.dart';
-import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:location/location.dart';
-// import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
 import 'package:doortodoor_mobile/Utils/Widgets/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
+import 'package:doortodoor_mobile/Services/folio_service.dart';
+import 'package:doortodoor_mobile/Services/login_service.dart';
+import 'package:doortodoor_mobile/Providers/global_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

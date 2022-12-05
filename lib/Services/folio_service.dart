@@ -36,7 +36,7 @@ class FolioService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>?> uploadImages() async {
+  uploadImages() async {
     if (imgCliente == null || imgGuia == null || imgLugar == null) return null;
 
     isSaving = true;
