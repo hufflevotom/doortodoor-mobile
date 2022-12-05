@@ -16,11 +16,15 @@ class LoginService extends ChangeNotifier {
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
     if (decodeResp['user']['_id'] != null) {
       if (decodeResp['user']['idTipoRol'] == '60bb0fad68bcb70590c9eccd') {
-        return {
-          'user': decodeResp['user'],
-          'token': decodeResp['access_token'],
-          'errorMessage': null
-        };
+        if (decodeResp['user']['idVehiculo'] != null) {
+          return {
+            'user': decodeResp['user'],
+            'token': decodeResp['access_token'],
+            'errorMessage': null
+          };
+        } else {
+          return {'errorMessage': 'No se han planificado entregas'};
+        }
       } else {
         return {'errorMessage': 'No es repartidor'};
       }

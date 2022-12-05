@@ -24,7 +24,7 @@ ScaffoldMessengerState notification(
     default:
       color = CustomColors.azul_100;
       icon = Icons.info;
-      ;
+      break;
   }
 
   return ScaffoldMessenger.of(context)

@@ -22,10 +22,14 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginService()),
+        ChangeNotifierProvider(create: (_) => FolioService()),
         ChangeNotifierProvider(create: (_) => GlobalProvider()),
         Provider(create: (_) => LocalPreferences(preferences)),
       ],
-      child: const MyApp(),
+      builder: (context, _) {
+        return const MyApp();
+      },
+      // child: const MyApp(),
     );
   }
 }
@@ -40,7 +44,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Salvatore App',
-      initialRoute: preferences.tokenUser == null ? 'login' : 'home',
+      initialRoute: preferences.tokenUser == '' || preferences.tokenUser == null
+          ? 'login'
+          : 'home',
       routes: {
         'login': (_) => const LoginScreen(),
         'home': (_) => const HomeScreen(),

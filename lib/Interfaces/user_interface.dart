@@ -10,6 +10,7 @@ class User {
   String? updatedAt;
   String? documento;
   String? dni;
+  String? idResponsable;
   IdVehiculo? idVehiculo;
   String? ruta;
 
@@ -26,6 +27,7 @@ class User {
       this.documento,
       this.dni,
       this.idVehiculo,
+      this.idResponsable,
       this.ruta});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class User {
     idVehiculo = json['idVehiculo'] != null
         ? IdVehiculo.fromJson(json['idVehiculo'])
         : null;
+    idResponsable = json['idResponsable'];
     ruta = json['ruta'];
   }
 }

@@ -1,10 +1,16 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
+import 'package:doortodoor_mobile/Providers/global_provider.dart';
+import 'package:doortodoor_mobile/Services/folio_service.dart';
+import 'package:doortodoor_mobile/Services/login_service.dart';
+import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
 import 'package:doortodoor_mobile/Utils/Widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,6 +45,36 @@ class _HomeScreenState extends State<HomeScreen> {
     final ByteData bytes = await rootBundle.load(assetName);
     final Uint8List list = bytes.buffer.asUint8List();
     return mapController?.addImage(name, list);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final preferences = Provider.of<LocalPreferences>(context, listen: false);
+
+      final loginService = Provider.of<LoginService>(context, listen: false);
+      final folioService = Provider.of<FolioService>(context, listen: false);
+
+      print('preferences.tokenUser');
+      print(preferences.tokenUser);
+      if (preferences.tokenUser == '' || preferences.tokenUser == null) {
+        Navigator.pushReplacementNamed(context, 'login');
+      } else {
+        final User? newUser = await loginService.user(preferences.tokenUser!);
+        if (newUser != null) {
+          context.read<GlobalProvider>().setUser(newUser: newUser);
+
+          if (newUser.ruta != null) {
+            final folioArr = await folioService.obtenerFolios(newUser.ruta!);
+
+            context
+                .read<GlobalProvider>()
+                .setFolios(newFolios: folioArr['body']);
+          }
+        }
+      }
+    });
   }
 
   @override

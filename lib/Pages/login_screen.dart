@@ -41,9 +41,9 @@ class LoginScreen extends StatelessWidget {
 class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final loginForm = Provider.of<LoginFormProvider>(context);
-    final global = Provider.of<GlobalProvider>(context);
-    final preferences = Provider.of<LocalPreferences>(context);
+    LoginFormProvider loginForm = context.watch<LoginFormProvider>();
+    GlobalProvider global = context.watch<GlobalProvider>();
+    LocalPreferences preferences = context.watch<LocalPreferences>();
 
     return Form(
       key: loginForm.formKey,
@@ -54,7 +54,7 @@ class _LoginForm extends StatelessWidget {
             autocorrect: false,
             keyboardType: TextInputType.number,
             decoration: InputDecorations.inputStyle(
-              hintText: 'Documento de identidad',
+              hintText: 'Documento',
               prefixIcon: Icons.account_circle_outlined,
             ),
             onChanged: (value) => loginForm.docIdentidad = value,
@@ -94,17 +94,35 @@ class _LoginForm extends StatelessWidget {
 
                     final loginService =
                         Provider.of<LoginService>(context, listen: false);
+                    final folioService =
+                        Provider.of<FolioService>(context, listen: false);
 
                     if (!loginForm.isValidForm()) return;
+
                     loginForm.isLoading = true;
+
                     final Map? login = await loginService.login(
                         loginForm.docIdentidad, loginForm.password);
-                    print(login);
+
                     if (login?['errorMessage'] == null &&
                         login?['user'] != null) {
                       final User? newUser =
                           await loginService.user(login?['token']);
-                      if (newUser != null) global.setUser(newUser: newUser);
+
+                      if (newUser != null) {
+                        context
+                            .read<GlobalProvider>()
+                            .setUser(newUser: newUser);
+
+                        if (newUser.ruta != null) {
+                          final folioArr =
+                              await folioService.obtenerFolios(newUser.ruta!);
+
+                          context
+                              .read<GlobalProvider>()
+                              .setFolios(newFolios: folioArr['body']);
+                        }
+                      }
                       preferences.setTokenUser(login?['token']);
                       Navigator.pushReplacementNamed(context, 'home');
                     } else {

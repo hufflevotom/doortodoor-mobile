@@ -1,3 +1,5 @@
+import 'package:doortodoor_mobile/Interfaces/folio_interface.dart';
+import 'package:doortodoor_mobile/Utils/Widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,6 +17,13 @@ class FolioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Folio;
+    final String? phone = args.idDetalleCliente?.telefono!.split('/').first;
+    final String inicio =
+        '${args.idDetalleEntrega?.idHorarioVisita?.inicioVisita}'
+            .padLeft(4, '0');
+    final String fin =
+        '${args.idDetalleEntrega?.idHorarioVisita?.finVisita}'.padLeft(4, '0');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -30,7 +39,7 @@ class FolioScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.check_box_outline_blank_outlined),
+                    const Icon(Icons.card_giftcard_outlined),
                     const SizedBox(
                       width: 10,
                     ),
@@ -46,52 +55,74 @@ class FolioScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Descripción: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text(
+                              '${args.idDetallePedido?.descripcionPedido}',
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Fecha: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text('${args.idDetalleEntrega?.fechaEntrega}'
+                                .split('T')
+                                .first),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Local: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text(
+                                '${args.idLocalAbastecimiento?.localAbastecimiento}'),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Inicio: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text(
+                                '${inicio.substring(0, 2)}:${inicio.substring(2)}'),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Fin: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text(
+                                '${fin.substring(0, 2)}:${fin.substring(2)}'),
+                          ),
                         ],
                       )
                     ],
@@ -122,52 +153,68 @@ class FolioScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Doc. Identidad: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text('${args.idDetalleCliente?.dni}'),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Nombre: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text('${args.idDetalleCliente?.nombre}'),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Teléfono: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text('${args.idDetalleCliente?.telefono}'),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Distrito: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                            child: Text(
+                                '${args.idDetalleEntrega?.idUbicacionEntrega?.distrito}'),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Dirección: ',
                             style: CustomText.botones,
                           ),
-                          const Text('data'),
+                          Flexible(
+                              child:
+                                  Text('${args.idDetalleCliente?.direccion}')),
                         ],
                       ),
                     ],
@@ -207,8 +254,15 @@ class FolioScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                //TODO: poner el número del cliente indicado en el folio
-                await makePhoneCall('923563714');
+                if (phone != '') {
+                  await makePhoneCall(phone!);
+                } else {
+                  notification(
+                      message:
+                          'No se registró un número de contacto para este folio',
+                      context: context,
+                      type: 'Error');
+                }
               },
             ),
           ),
@@ -245,8 +299,7 @@ class FolioScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                //TODO: Terminar la entrega
-                Navigator.pushNamed(context, 'finalizar');
+                Navigator.pushNamed(context, 'finalizar', arguments: args);
               },
             ),
           ),
@@ -283,8 +336,7 @@ class FolioScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                //TODO: Reportar problema
-                Navigator.pushNamed(context, 'problema');
+                Navigator.pushNamed(context, 'problema', arguments: args);
               },
             ),
           ),

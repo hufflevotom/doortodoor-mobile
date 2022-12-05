@@ -1,8 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _tokenUser = '_tokenUser';
-
 class LocalPreferences {
+  final String _tokenUser = '';
   final SharedPreferences _sharedPreferences;
   LocalPreferences(this._sharedPreferences);
 
