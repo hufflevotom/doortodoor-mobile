@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 import 'package:doortodoor_mobile/Pages/card_folio_screen.dart';
 import 'package:doortodoor_mobile/Pages/map_box_screen.dart';
+import 'package:doortodoor_mobile/Services/ubicacion_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
@@ -76,6 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _initLocationService() async {
     final globalProvider = Provider.of<GlobalProvider>(context, listen: false);
+    final ubicacionService =
+        Provider.of<UbicacionService>(context, listen: false);
     var location = Location();
 
     if (!await location.serviceEnabled()) {
@@ -93,6 +96,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     var loc = await location.getLocation();
+    if (globalProvider.existUser) {
+      User? actualUser = globalProvider.getUser;
+      print(actualUser);
+      ubicacionService.actualizarUbicacion(actualUser!.idResponsable!,
+          loc.latitude!.toString(), loc.longitude!.toString());
+    }
     globalProvider.setUbiUser(LatLng(loc.latitude!, loc.longitude!));
   }
 

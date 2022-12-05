@@ -1,5 +1,6 @@
 import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:doortodoor_mobile/Pages/pages.dart';
@@ -10,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
+  await Firebase.initializeApp();
   runApp(AppState(preferences: sharedPreferences));
 }
 
@@ -23,6 +25,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LoginService()),
         ChangeNotifierProvider(create: (_) => FolioService()),
+        ChangeNotifierProvider(create: (_) => UbicacionService()),
         ChangeNotifierProvider(create: (_) => GlobalProvider()),
         Provider(create: (_) => LocalPreferences(preferences)),
       ],

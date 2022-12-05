@@ -94,9 +94,9 @@ class UserInfo extends StatelessWidget {
   }) : super(key: key);
 
   final User? user;
-  final String modelo;
-  final String placa;
-  final String ruta;
+  final String? modelo;
+  final String? placa;
+  final String? ruta;
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +208,7 @@ class UserInfo extends StatelessWidget {
                                 'Modelo: ',
                                 style: CustomText.botones,
                               ),
-                              Text(modelo),
+                              Text('$modelo'),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -218,7 +218,7 @@ class UserInfo extends StatelessWidget {
                                 'Placa: ',
                                 style: CustomText.botones,
                               ),
-                              Text(placa),
+                              Text('$placa'),
                             ],
                           ),
                         ],
@@ -264,7 +264,7 @@ class UserInfo extends StatelessWidget {
                                 'Ruta: ',
                                 style: CustomText.botones,
                               ),
-                              Text(ruta),
+                              Text('$ruta'),
                             ],
                           ),
                         ],
