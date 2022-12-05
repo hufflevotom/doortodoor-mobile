@@ -52,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       _initData();
-      _initLocationService();
     });
   }
 
@@ -66,20 +65,24 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       final User? newUser = await loginService.user(preferences.tokenUser!);
       if (newUser != null) {
+        
         context.read<GlobalProvider>().setUser(newUser: newUser);
         if (newUser.ruta != null) {
           final folioArr = await folioService.obtenerFolios(newUser.ruta!);
           context.read<GlobalProvider>().setFolios(newFolios: folioArr['body']);
         }
+        _initLocationService();
       }
     }
   }
 
   void _initLocationService() async {
     final globalProvider = Provider.of<GlobalProvider>(context, listen: false);
-    final ubicacionService =
-        Provider.of<UbicacionService>(context, listen: false);
-    var location = Location();
+    final ubicacionService = Provider.of<UbicacionService>(
+      context,
+      listen: false,
+    );
+    final location = Location();
 
     if (!await location.serviceEnabled()) {
       if (!await location.requestService()) {
@@ -95,14 +98,19 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
 
-    var loc = await location.getLocation();
-    if (globalProvider.existUser) {
-      User? actualUser = globalProvider.getUser;
-      print(actualUser);
-      ubicacionService.actualizarUbicacion(actualUser!.idResponsable!,
-          loc.latitude!.toString(), loc.longitude!.toString());
-    }
-    globalProvider.setUbiUser(LatLng(loc.latitude!, loc.longitude!));
+    final address = await location.getLocation();
+    globalProvider.setUbiUser(LatLng(address.latitude!, address.longitude!));
+
+    final idResponsable = globalProvider.getUser?.idResponsable;
+    final idFolio = globalProvider.getFolios.first['_id'];
+    // Agregar o actualizar ubicacion
+    final response = await ubicacionService.actualizarUbicacion(
+      idResponsable!,
+      address.latitude!.toString(),
+      address.longitude!.toString(),
+      idFolio,
+    );
+    print('Respuesta Ubicacion: ${response}');
   }
 
   @override

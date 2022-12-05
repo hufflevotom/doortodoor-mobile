@@ -28,12 +28,11 @@ class _CardFolioScreenState extends State<CardFolioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final folios = context.watch<GlobalProvider>().getFolios;
+    final folios = Provider.of<GlobalProvider>(context, listen: true).getFolios;
     if (folios.isNotEmpty) {
       final folioActual = folios.first;
       final latitud =
           folioActual['idDetalleEntrega']['idUbicacionEntrega']['latitud'];
-
       final longitud =
           folioActual['idDetalleEntrega']['idUbicacionEntrega']['longitud'];
 
