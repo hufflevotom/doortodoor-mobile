@@ -1,11 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
+import 'package:doortodoor_mobile/Pages/card_folio_screen.dart';
+import 'package:doortodoor_mobile/Pages/map_box_screen.dart';
 import 'package:doortodoor_mobile/Providers/global_provider.dart';
 import 'package:doortodoor_mobile/Services/folio_service.dart';
 import 'package:doortodoor_mobile/Services/login_service.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:location/location.dart';
 // import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
@@ -20,8 +23,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final center = const LatLng(-12.2277325, -76.8618111);
-
   MapboxMapController? mapController;
 
   String selectedStyle =
@@ -30,14 +31,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final oscuroStyle = 'mapbox://styles/hufflevotom/ckwp8plz811tt14qjsrcyjfpy';
   final streetStyle = 'mapbox://styles/hufflevotom/ckwp8d95g2hhy15ohwuo0a8os';
 
-  void _onMapCreated(MapboxMapController controller) {
-    mapController = controller;
-    _onStyleLoaded();
-  }
-
   void _onStyleLoaded() {
     addImageFromAsset("assetImage", "lib/Utils/Images/Ubicacion.png");
     // addImageFromUrl("networkImage", "https://via.placeholder.com/50");
+  }
+
+  void _onMapCreated(MapboxMapController controller) {
+    mapController = controller;
+    _onStyleLoaded();
   }
 
   //* Adds an asset image to the currently displayed style
@@ -51,30 +52,50 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final preferences = Provider.of<LocalPreferences>(context, listen: false);
+      _initData();
+      _initLocationService();
+    });
+  }
 
-      final loginService = Provider.of<LoginService>(context, listen: false);
-      final folioService = Provider.of<FolioService>(context, listen: false);
+  void _initData() async {
+    final preferences = Provider.of<LocalPreferences>(context, listen: false);
+    final loginService = Provider.of<LoginService>(context, listen: false);
+    final folioService = Provider.of<FolioService>(context, listen: false);
 
-      print('preferences.tokenUser');
-      print(preferences.tokenUser);
-      if (preferences.tokenUser == '' || preferences.tokenUser == null) {
-        Navigator.pushReplacementNamed(context, 'login');
-      } else {
-        final User? newUser = await loginService.user(preferences.tokenUser!);
-        if (newUser != null) {
-          context.read<GlobalProvider>().setUser(newUser: newUser);
-
-          if (newUser.ruta != null) {
-            final folioArr = await folioService.obtenerFolios(newUser.ruta!);
-
-            context
-                .read<GlobalProvider>()
-                .setFolios(newFolios: folioArr['body']);
-          }
+    if (preferences.tokenUser == '' || preferences.tokenUser == null) {
+      Navigator.pushReplacementNamed(context, 'login');
+    } else {
+      final User? newUser = await loginService.user(preferences.tokenUser!);
+      if (newUser != null) {
+        context.read<GlobalProvider>().setUser(newUser: newUser);
+        if (newUser.ruta != null) {
+          final folioArr = await folioService.obtenerFolios(newUser.ruta!);
+          context.read<GlobalProvider>().setFolios(newFolios: folioArr['body']);
         }
       }
-    });
+    }
+  }
+
+  void _initLocationService() async {
+    final globalProvider = Provider.of<GlobalProvider>(context, listen: false);
+    var location = Location();
+
+    if (!await location.serviceEnabled()) {
+      if (!await location.requestService()) {
+        return;
+      }
+    }
+
+    var permission = await location.hasPermission();
+    if (permission == PermissionStatus.denied) {
+      permission = await location.requestPermission();
+      if (permission != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    var loc = await location.getLocation();
+    globalProvider.setUbiUser(LatLng(loc.latitude!, loc.longitude!));
   }
 
   @override
@@ -86,7 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: Stack(
             children: [
-              crearMapa(),
+              PaintMap(
+                selectedStyle: selectedStyle,
+                onMapCreated: _onMapCreated,
+              ),
               Positioned.fill(
                 bottom: null,
                 child: Row(
@@ -144,93 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  //TODO: Evaluar selección de folio
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 25),
-                    child: CustomCard(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Doc. Identidad: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.negro_100,
-                                ),
-                              ),
-                              const Text('data'),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Nombre: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.negro_100,
-                                ),
-                              ),
-                              const Text('data'),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Teléfono: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.negro_100,
-                                ),
-                              ),
-                              const Text('data'),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Distrito: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.negro_100,
-                                ),
-                              ),
-                              const Text('data'),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Dirección: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.negro_100,
-                                ),
-                              ),
-                              const Text('data'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
+              const CardFolioScreen(),
             ],
           ),
         ),
@@ -296,16 +234,6 @@ class _HomeScreenState extends State<HomeScreen> {
               }),
         )
       ],
-    );
-  }
-
-  MapboxMap crearMapa() {
-    return MapboxMap(
-      accessToken:
-          'sk.eyJ1IjoiaHVmZmxldm90b20iLCJhIjoiY2t3cGJwbGw2MGI0eTJubnppNnR6a2VuMiJ9.fgSLZx6wPQPqAL_pHGsoRQ',
-      styleString: selectedStyle,
-      onMapCreated: _onMapCreated,
-      initialCameraPosition: CameraPosition(target: center, zoom: 14),
     );
   }
 }
