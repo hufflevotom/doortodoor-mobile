@@ -20,7 +20,6 @@ class FinalizarScreen extends StatelessWidget {
     final finalizarService = Provider.of<FolioService>(context);
     return ChangeNotifierProvider(
         create: (_) => FinalizarFormProvider(Finalizar(
-              available: false,
               estado: '638d0c4d9a3096d13d7e2c1e',
               imgCliente: '',
               imgGuia: '',

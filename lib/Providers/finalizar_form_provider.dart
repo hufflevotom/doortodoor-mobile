@@ -5,7 +5,6 @@ class FinalizarFormProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   late Finalizar values = Finalizar(
-    available: false,
     estado: '638d0c4d9a3096d13d7e2c1e',
     imgCliente: '',
     imgGuia: '',

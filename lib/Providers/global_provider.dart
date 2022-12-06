@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:latlong2/latlong.dart';
 
 class GlobalProvider extends ChangeNotifier {
-  LatLng? _ubicationUser;
+  LatLng? _ubicationUser = LatLng(-12.051694, -77.034589);
 
   User? _user;
   List _folios = [];

@@ -5,8 +5,8 @@ import 'package:doortodoor_mobile/Services/ubicacion_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:doortodoor_mobile/Utils/preferences/local_preferences.dart';
 import 'package:doortodoor_mobile/Utils/Styles/styles.dart';
 import 'package:doortodoor_mobile/Interfaces/user_interface.dart';
@@ -22,30 +22,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  MapboxMapController? mapController;
+  String selectedStyle = 'mapbox/dark-v10';
+  // String selectedStyle = 'ckwp8d95g2hhy15ohwuo0a8os';
 
-  String selectedStyle =
-      'mapbox://styles/hufflevotom/ckwp8d95g2hhy15ohwuo0a8os';
+  // final oscuroStyle = 'mapbox://styles/hufflevotom/ckwp8plz811tt14qjsrcyjfpy';
+  final streetStyle = 'mapbox/dark-v10';
 
-  final oscuroStyle = 'mapbox://styles/hufflevotom/ckwp8plz811tt14qjsrcyjfpy';
-  final streetStyle = 'mapbox://styles/hufflevotom/ckwp8d95g2hhy15ohwuo0a8os';
-
-  void _onStyleLoaded() {
-    addImageFromAsset("assetImage", "lib/Utils/Images/Ubicacion.png");
-    // addImageFromUrl("networkImage", "https://via.placeholder.com/50");
-  }
-
-  void _onMapCreated(MapboxMapController controller) {
-    mapController = controller;
-    _onStyleLoaded();
-  }
-
-  //* Adds an asset image to the currently displayed style
-  Future<void> addImageFromAsset(String name, String assetName) async {
-    final ByteData bytes = await rootBundle.load(assetName);
-    final Uint8List list = bytes.buffer.asUint8List();
-    return mapController?.addImage(name, list);
-  }
+  // void _onStyleLoaded() {
+  //   addImageFromAsset("assetImage", "lib/Utils/Images/Ubicacion.png");
+  // }
 
   @override
   void initState() {
@@ -65,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       final User? newUser = await loginService.user(preferences.tokenUser!);
       if (newUser != null) {
-        
         context.read<GlobalProvider>().setUser(newUser: newUser);
         if (newUser.ruta != null) {
           final folioArr = await folioService.obtenerFolios(newUser.ruta!);
@@ -124,7 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               PaintMap(
                 selectedStyle: selectedStyle,
-                onMapCreated: _onMapCreated,
               ),
               Positioned.fill(
                 bottom: null,
@@ -239,12 +222,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: CustomColors.blanco,
               ),
               onPressed: () {
-                if (selectedStyle == oscuroStyle) {
-                  selectedStyle = streetStyle;
-                } else {
-                  selectedStyle = oscuroStyle;
-                }
-                _onStyleLoaded();
+                // if (selectedStyle == oscuroStyle) {
+                selectedStyle = streetStyle;
+                // } else {
+                //   selectedStyle = oscuroStyle;
+                // }
                 setState(() {});
               }),
         )
