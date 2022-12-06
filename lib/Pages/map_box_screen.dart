@@ -27,8 +27,8 @@ class PaintMap extends StatelessWidget {
           controller.addSymbols([
             SymbolOptions(
               geometry: globalProvider.ubicationUser,
-              iconImage: "lib/Utils/Images/Ubicacion.png",
-              iconSize: 1.5,
+              // iconImage: "lib/Utils/Images/Ubicacion.png",
+              iconSize: 2,
             ),
           ]);
           controller.animateCamera(
